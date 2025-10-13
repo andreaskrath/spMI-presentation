@@ -117,13 +117,10 @@
 
       #pause
       - We know that $sqrt(#sym.sigma^2) = #sym.sigma$
-
       #pause
-        - Essentially same formula, except constant
-
+      - Essentially same formula, except constant
       #pause
       - Fit on training data, normalize entire dataset #sym.arrow.r global normalization
-
       #pause
       - None of the stated benefits of instance normalization
     ]
