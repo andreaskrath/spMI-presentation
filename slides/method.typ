@@ -123,6 +123,8 @@
       - Fit on training data, normalize entire dataset #sym.arrow.r global normalization
       #pause
       - None of the stated benefits of instance normalization
+        - Mitigate internal covariate shift
+        - Grasp intricate temporal dynamics in TS
     ]
   ]
 ]
