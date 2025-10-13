@@ -65,9 +65,8 @@
       class ...:
           def __read_data__(self):
               self.scalar = StandardScaler()
-              if self.scale:
-                  self.scaler.fit(train_data.values)
-                  data = self.scaler.transform(df_data.values)
+              self.scaler.fit(train_data.values)
+              data = self.scaler.transform(df_data.values)
       ```
       #pause
       - They fit on training data
