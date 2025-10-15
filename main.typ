@@ -2,7 +2,7 @@
 
 #show: metropolis-theme.with(
   aspect-ratio: "16-9",
-  footer: self => self.info.institution,
+  footer: self => self.info.subtitle,
   config-info(
     title: [Memformer],
     subtitle: [A Memory Guided Transformer for Time Series Forecasting],
