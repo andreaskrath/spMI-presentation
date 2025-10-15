@@ -211,7 +211,7 @@
       - Temporally relates data in a sequence
       
       *Output*
-      - Enriched input features
+      - Input features enriched with local information
       - Spatial #sym.arrow.r dynamic correlations
       - Temporal #sym.arrow.r GRU
     ]
@@ -219,4 +219,53 @@
 ][
   #meanwhile
   #image("/images/patch-wise-recurrent-graph-learning.png", width: 100%)
+]
+
+== Global Attention
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Motivation*
+      - Patch-wise correlations are sensitive
+        - Outliers dominate
+      - Constrain locally enriched features
+        - Mitigate disrupted correlations
+
+      *Input*
+        - Transpose locally enriched features
+          - Isolate variables
+        - Linear transformation
+          - Positional encoding
+        - Converted to Q, K, V matrices
+          - Learnable parameters
+    ]
+  ]
+][
+  #meanwhile
+  #image("/images/global-attention.png", width: 100%)
+]
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Attention*
+      - Relatively conventional implementation
+        - Query and Key to find importance
+        - Weight Value by importance
+      - Global information is new
+      - Adding global information after softmax
+        - Bias probabilities
+        - Global information affects parameters
+
+      *Output*
+      - The final "representation" of data
+      - $text("F'", weight: "bold")$ is not a forecast
+        - Final feature representation
+      - Linear layer maps to forecasting horizon
+    ]
+  ]
+][
+  #meanwhile
+  #image("/images/global-attention.png", width: 100%)
 ]
