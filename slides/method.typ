@@ -235,6 +235,7 @@
       *Input*
         - Transpose locally enriched features
           - Isolate variables
+          - Diffusion earlier
         - Linear transformation
           - Positional encoding
         - Converted to Q, K, V matrices
