@@ -11,15 +11,18 @@
       - As mentioned earlier
       - Unconventional notation
       - Obscures details
-        - _What are they doing?_
+
+      *Inconsistencies*
+      - $C_("glo")$ is global memory
+      - $C_("loc")$ is locally correlated features
+      - $E$ is local memory
       
       #pause
       *Symbol Reuse*
       - $text("F", weight: "bold")$ is the ground truth
-        - $F$ is the dimensionality of $text("F", weight: "bold")$
-          - i.e. the forecasting horizon
+      - $F$ is the dimensionality of $text("F", weight: "bold")$
       - $text("F'", weight: "bold")$ is the encoding output
-        - $F'$ is the dimensionality of $text("F'", weight: "bold")$
+      - $F'$ is the dimensionality of $text("F'", weight: "bold")$
       - Confusing statements and diagrams
     ]
   ]
