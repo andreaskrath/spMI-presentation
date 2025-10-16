@@ -18,3 +18,4 @@
 #include "slides/method.typ"
 #include "slides/result.typ"
 #include "slides/critique.typ"
+#include "slides/praise.typ"
