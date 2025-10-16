@@ -270,3 +270,96 @@
   #meanwhile
   #image("/images/global-attention.png", width: 100%)
 ]
+
+== Alternating Memory Enhancer
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Overview*
+      - Input
+        - Locally correlated features
+      - Outputs
+        - Local information $E$
+        - Global information $C_("glo")$
+      - Shared global memory
+
+      *Hyperparameters*
+      - $M$ #sym.arrow number of high level patterns
+        - Spikes, seasons, stable
+      - $D_("glo")$ #sym.arrow richness of patterns
+    ]
+  ]
+][
+  #meanwhile
+  #image("/images/ame.png", width: 100%)
+]
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Local Enhancer*
+      - Local memory regions $attach(#sym.Gamma, br: "loc"i)$
+        - One for each patch
+      - $P_i$ #sym.arrow.l.r.long $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow.l.r.long $E_i$
+      - Not directly identical
+        - $E$ contains global memories
+        - Defined by $C_("loc")$
+      - Memories are *not* information
+    ]
+  ]
+][
+  #meanwhile
+  #image("/images/ame.png", width: 100%)
+]
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Global Enhancer*
+      - Learns from locally correlated features
+      - $attach(#sym.Gamma, br: "mem")$ is a large trainable tensor
+        - Produces inquiry tensor
+        - Recognizes patterns in data
+          - The $M$ high level patterns
+      - Inquiry tensor
+        - Prevalence of patterns in local data
+        - Similarity scores with global memory
+      - Probability distribution
+        - Importance of pattern
+      - Top $k$ most important patterns
+        - Stored in $C_("glo")$
+        - Scaled based on importance
+          - Weighted sum
+    ]
+  ]
+][
+  #meanwhile
+  #image("/images/ame.png", width: 100%)
+]
+
+#slide(composer: (1fr, 1fr))[
+  #block(height: 100%)[
+    #align(top)[
+      *Alternating Training*
+      - Local information $E$ requires
+        - Local memories
+        - Global memories
+      - Updating both simultaneously
+        - Unstable training
+        - Issues converging
+      - LE and GE alternate training
+        - Split adjustment of memories
+
+      *LE Training*
+      - Local memories > global memories
+        - More parameters #sym.arrow longer convergence
+      - Balance convergence
+        - Different learning rates
+        - LE training more
+    ]
+  ]
+][
+  #pause
+  #image("/images/alternating_training.png", width: 100%)
+]
