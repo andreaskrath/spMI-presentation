@@ -4,127 +4,10 @@
 
 == Overview
 
-== Preprocessing
-
 #slide[
   #block(height: 100%)[
-    #align(top)[
-      *Instance normalization*
-      - Normalize within historical horizon only
-      - Mitigates the issue of internal covariate shift
-      - Allows model to effectively grasp the intricate temporal dynamics inherent in time series
-
-      #grid(
-        columns: 2,
-        column-gutter: 2em,
-        [
-          #block(width: 100%)[
-            #align(center)[
-              $ 
-                & H' = (H - #sym.mu) \/ sqrt((#sym.sigma^2 + c)), text("where") \
-                & H text("is the historical horizon") \
-                & #sym.mu text("is the mean") \
-                & #sym.sigma text("is the variance") \
-                & c text("ensures numerical stability")
-              $
-            ]
-          ]
-        ],
-        [
-          #pause
-          #align(center + horizon)[
-            #block(width: 100%)[
-              #image("/images/preprocessing.png", width: 100%)
-            ]
-          ]
-        ],
-      )
-
-      #pause
-      - Mistake in variance?
-        - $#sym.sigma$ is conventional notation for standard deviation
-        - $#sym.sigma^2$ is conventional notation for variance
-    ]
-  ]
-]
-
-#slide[
-  #block(height: 100%)[
-    #align(top)[
-      *What is going on?*
-
-      #pause
-      - Explored code to find answer
-      - `data_provider/data_loader.py`
-        - Only place anything related to loading data happens
-        - `Dataset_ETT_hour`, `Dataset_ETT_minute`, `Dataset_Custom`, `Dataset_Pred`
-
-      #pause
-      ```python
-      from sklearn.preprocessing import StandardScaler
-      class ...:
-          def __read_data__(self):
-              self.scalar = StandardScaler()
-              self.scaler.fit(train_data.values)
-              data = self.scaler.transform(df_data.values)
-      ```
-      #pause
-      - They fit on training data
-      - Normalize entire dataset with #sym.mu and #sym.sigma from training data
-    ]
-  ]
-]
-
-#slide[
-  #block(height: 100%)[
-    #align(top)[
-      *What are they actually doing?*
-      #grid(
-        columns: 2,
-        column-gutter: 2em,
-        [
-          #align(top + center)[
-            #block(width: 100%)[
-              #align(center)[
-                Preprocessing
-                $ 
-                  & H' = (H - #sym.mu) \/ sqrt((#sym.sigma^2 + c)), text("where") \
-                  & H text("is the historical horizon") \
-                  & #sym.mu text("is the mean") \
-                  & #sym.sigma text("is the variance") \
-                  & c text("ensures numerical stability")
-                $
-              ]
-            ]
-          ]
-        ],
-        [
-          #align(top + center)[
-            #block(width: 100%)[
-              #align(center)[
-                StandardScaler
-                $ 
-                  & z = (x - #sym.mu) \/ #sym.sigma, text("where") \
-                  & x text("is the sample") \
-                  & #sym.mu text("is the mean") \
-                  & #sym.sigma text("is the standard deviation") \
-                $
-              ]
-            ]
-          ]
-        ]
-      )
-
-      #pause
-      - We know that $sqrt(#sym.sigma^2) = #sym.sigma$
-      #pause
-      - Essentially same formula, except constant
-      #pause
-      - Fit on training data, normalize entire dataset #sym.arrow.r global normalization
-      #pause
-      - None of the stated benefits of instance normalization
-        - Mitigate internal covariate shift
-        - Grasp intricate temporal dynamics in TS
+    #align(center)[
+      #image("/images/encoder.png", width: 100%)
     ]
   ]
 ]
@@ -151,17 +34,12 @@
   #block(height: 100%)[
     #align(top)[
       *Normalized Data*
-      - Normalized as described earlier
-        - Not what the paper actually states
+      - Instance normalization
 
       #pause
       *Patches*
       - $H'$ is split into $p$ patches
-      - Stride $S$
-      - Size $T$
-      - If $S >= T$ patches are disjoint
-      - If $S < T$ patches overlap
-        - Common elements for adjacent patches
+      - Group temporally related data
     ]
   ]
 ][
@@ -173,9 +51,9 @@
   #block(height: 100%)[
     #align(top)[
       *AME*
-      - Provides local memory embedding
+      - Provides local information
         - These are learnable parameters
-      - Consistant local memory for patch $P_i$
+      - Consistant local information for patch $P_i$
       - Matrix product of $E_i #sym.times.circle E^T_i$
         - Similarity matrix for variables in $P_i$
 
@@ -206,10 +84,12 @@
         - Not only immediate neighbours
       - Spatially relates data based on connections
 
+      #pause
       *Gated Recurrent Unit*
       - Forwards information from $P_i$ to $P_(i+1)$
       - Temporally relates data in a sequence
       
+      #pause
       *Output*
       - Input features enriched with local information
       - Spatial #sym.arrow.r dynamic correlations
@@ -226,18 +106,11 @@
 #slide(composer: (1fr, 1fr))[
   #block(height: 100%)[
     #align(top)[
-      *Motivation*
-      - Patch-wise correlations are sensitive
-        - Outliers dominate
-      - Constrain locally enriched features
-        - Mitigate disrupted correlations
-
+      #pause
       *Input*
         - Transpose locally enriched features
           - Isolate variables
           - Diffusion earlier
-        - Linear transformation
-          - Positional encoding
         - Converted to Q, K, V matrices
           - Learnable parameters
     ]
@@ -252,13 +125,11 @@
     #align(top)[
       *Attention*
       - Relatively conventional implementation
-        - Query and Key to find importance
-        - Weight Value by importance
       - Global information is new
       - Adding global information after softmax
         - Bias probabilities
-        - Global information affects parameters
 
+      #pause
       *Output*
       - The final "representation" of data
       - $text("F'", weight: "bold")$ is not a forecast
@@ -271,95 +142,101 @@
   #image("/images/global-attention.png", width: 100%)
 ]
 
-== Alternating Memory Enhancer
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Overview*
-      - Input
-        - Locally correlated features
-      - Outputs
-        - Local information $E$
-        - Global information $C_("glo")$
-      - Shared global memory
-
-      *Hyperparameters*
-      - $M$ #sym.arrow number of high level patterns
-        - Spikes, seasons, stable
-      - $D_("glo")$ #sym.arrow richness of patterns
-    ]
-  ]
-][
-  #meanwhile
-  #image("/images/ame.png", width: 100%)
-]
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Local Enhancer*
-      - Local memory regions $attach(#sym.Gamma, br: "loc"i)$
-        - One for each patch
-      - $P_i$ #sym.arrow.l.r.long $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow.l.r.long $E_i$
-      - Not directly identical
-        - $E$ contains global memories
-        - Defined by $C_("loc")$
-      - Memories are *not* information
-    ]
-  ]
-][
-  #meanwhile
-  #image("/images/ame.png", width: 100%)
-]
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Global Enhancer*
-      - Learns from locally correlated features
-      - $attach(#sym.Gamma, br: "mem")$ is a large trainable tensor
-        - Produces inquiry tensor
-        - Recognizes patterns in data
-          - The $M$ high level patterns
-      - Inquiry tensor
-        - Prevalence of patterns in local data
-        - Similarity scores with global memory
-      - Probability distribution
-        - Importance of pattern
-      - Top $k$ most important patterns
-        - Stored in $C_("glo")$
-        - Scaled based on importance
-          - Weighted sum
-    ]
-  ]
-][
-  #meanwhile
-  #image("/images/ame.png", width: 100%)
-]
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Alternating Training*
-      - Local information $E$ requires
-        - Local memories
-        - Global memories
-      - Updating both simultaneously
-        - Unstable training
-        - Issues converging
-      - LE and GE alternate training
-        - Split adjustment of memories
-
-      *LE Training*
-      - Local memories > global memories
-        - More parameters #sym.arrow longer convergence
-      - Balance convergence
-        - Different learning rates
-        - LE training more
-    ]
-  ]
-][
-  #pause
-  #image("/images/alternating_training.png", width: 100%)
-]
+// == Alternating Memory Enhancer
+//
+// #slide(composer: (1fr, 1fr))[
+//   #block(height: 100%)[
+//     #align(top)[
+//       #pause
+//       *Overview*
+//       - Input
+//         - Locally correlated features
+//       - Outputs
+//         - Local information $E$
+//         - Global information $C_("glo")$
+//       - Shared global memory
+//
+//       #pause
+//       *Hyperparameters*
+//       - $M$ #sym.arrow number of high level patterns
+//         - Spikes, seasons, stable
+//       - $D_("glo")$ #sym.arrow richness of patterns
+//     ]
+//   ]
+// ][
+//   #meanwhile
+//   #image("/images/ame.png", width: 100%)
+// ]
+//
+// #slide(composer: (1fr, 1fr))[
+//   #block(height: 100%)[
+//     #align(top)[
+//       *Local Enhancer*
+//       - Local memory regions $attach(#sym.Gamma, br: "loc"i)$
+//         - One for each patch
+//       - $P_i$ #sym.arrow.l.r.long $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow $attach(#sym.Gamma, br: "loc"i)$ #sym.arrow.l.r.long $E_i$
+//       - Not directly identical
+//         - $E$ contains global memories influence
+//         - Defined by $C_("loc")$
+//       - Memories are *not* information
+//     ]
+//   ]
+// ][
+//   #meanwhile
+//   #image("/images/ame.png", width: 100%)
+// ]
+//
+// #slide(composer: (1fr, 1fr))[
+//   #block(height: 100%)[
+//     #align(top)[
+//       *Global Enhancer*
+//       - Learns from locally correlated features
+//       - $attach(#sym.Gamma, br: "mem")$ is a large trainable tensor
+//         - Produces inquiry tensor
+//         - Recognizes patterns in data
+//           - The $M$ high level patterns
+//       #pause
+//       - Inquiry tensor
+//         - Prevalence of patterns in local data
+//         - Similarity scores with global memory
+//       #pause
+//       - Probability distribution
+//         - Importance of pattern
+//       #pause
+//       - Top $k$ most important patterns
+//         - Stored in $C_("glo")$
+//         - Scaled based on importance
+//           - Weighted sum
+//     ]
+//   ]
+// ][
+//   #meanwhile
+//   #image("/images/ame.png", width: 100%)
+// ]
+//
+// #slide(composer: (1fr, 1fr))[
+//   #block(height: 100%)[
+//     #align(top)[
+//       *Alternating Training*
+//       - Local information $E$ requires
+//         - Local memories
+//         - Global memories
+//       - Updating both simultaneously
+//         - Unstable training
+//         - Issues converging
+//       - LE and GE alternate training
+//         - Split adjustment of memories
+//
+//       #pause
+//       *LE Training*
+//       - Local memories > global memories
+//         - More parameters #sym.arrow longer convergence
+//       - Balance convergence
+//         - Different learning rates
+//         - LE training more
+//     ]
+//   ]
+// ][
+//   #pause
+//   #image("/images/alternating_training.png", width: 100%)
+// ]

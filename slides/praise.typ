@@ -13,6 +13,7 @@
         - Minor inconsistencies
           - Attention
       
+      #pause
       *Dimensionality*
       - Squares #sym.arrow 2-dimensional
       - Cubes #sym.arrow 3-dimensional

@@ -17,6 +17,5 @@
 #include "slides/intro.typ"
 #include "slides/method.typ"
 #include "slides/experiment.typ"
-#include "slides/result.typ"
 #include "slides/critique.typ"
-#include "slides/praise.typ"
+// #include "slides/praise.typ"
