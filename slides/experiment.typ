@@ -45,34 +45,34 @@
   ]
 ]
 
-== Ablation Study
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Overview*
-      - Are components contributing?
-      - Experiment without
-        - Graph learning
-        - GRU
-        - Local
-        - Global
-        - Sharing
-        - Alternating
-
-      #pause
-      *Results*
-      - All component are contributing
-    ]
-  ]
-][
-  #block(height: 100%)[
-    #align(center)[
-      #meanwhile
-      #image("/images/ablation_study.png", width: 100%)
-    ]
-  ]
-]
+// == Ablation Study
+//
+// #slide(composer: (1fr, 1fr))[
+//   #block(height: 100%)[
+//     #align(top)[
+//       *Overview*
+//       - Are components contributing?
+//       - Experiment without
+//         - Graph learning
+//         - GRU
+//         - Local
+//         - Global
+//         - Sharing
+//         - Alternating
+//
+//       #pause
+//       *Results*
+//       - All component are contributing
+//     ]
+//   ]
+// ][
+//   #block(height: 100%)[
+//     #align(center)[
+//       #meanwhile
+//       #image("/images/ablation_study.png", width: 100%)
+//     ]
+//   ]
+// ]
 
 == Challenge 1
 
