@@ -38,3 +38,17 @@
     #image("/images/output_notation.png", width: 100%)
   ]
 ]
+
+== Vagueness
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
+      *Hardware for Experiments*
+      - Linux 18.04
+        - Assume Ubuntu LTS 18.04
+      - _"...two RTX GPUs with 24 GB memory"_
+        - Unclear if 24 GB each or together
+    ]
+  ]
+]
