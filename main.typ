@@ -4,9 +4,9 @@
   aspect-ratio: "16-9",
   footer: self => self.info.subtitle,
   config-info(
-    title: [Memformer],
-    subtitle: [A Memory Guided Transformer for Time Series Forecasting],
-    author: [#underline[Yunyao Cheng], Chenjuan Guo, Bin Yang, #underline[Haomin Yu], #underline[Kai Zhao], #underline[Christian S. Jensen]],
+    title: [Less is More],
+    subtitle: [Efficient Time Series Dataset Condensation via Two-fold Modal Matching],
+    author: [#underline[Hao Miao], Ziqiao Lui, #underline[Yan Zhao], Chenjuan Guo, Bin Yang, Kai Zheng, #underline[Christian S. Jensen]],
     date: [February 2025],
     institution: [Proceedings of the VLDB Endowment, Volume 18, Issue 2],
   ),
@@ -18,4 +18,5 @@
 #include "slides/method.typ"
 #include "slides/experiment.typ"
 #include "slides/critique.typ"
-// #include "slides/praise.typ"
+#include "slides/project.typ"
+#include "slides/evaluation.typ"

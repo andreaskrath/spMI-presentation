@@ -7,77 +7,26 @@
 #slide[
   #block(height: 100%)[
     #align(top)[
-      *Forecasting*
-      - Predicting the future
-        - Allows preparation
+      *IoT*
+      - More devices
+      - Time series
+      
       #pause
-      - Long term forecasting?
-        - Obviously more difficult than short term
-        - Time constrained tasks
-    ]
-  ]
-]
-
-#slide[
-  #block(height: 100%)[
-    #align(top)[
-      *Long Term Forecasting*
-      - What defines long term?
-      #pause
-        - Historical horizon
-        - Forecasting horizon
-        #pause
-        - Both exceed 96 time steps
-          - Hourly time step #sym.arrow 4 days
+      *Data Volume*
+      - Too much data
+      - Edge computing
+      - What can we do?
+        - Less data #sym.arrow Same value
 
       #pause
-      *Variable Correlation*
-      - Complex systems have many variables
-        - These relate to each other
-      - These impact forecasting accuracy
-        - Patterns in the data
+      *Existing Methods*
+      - Coreset construction
+      - Streaming learning
+      - Issues
+        - Not optimal
+        - Downstream tasks
     ]
   ]
-]
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Dynamic Correlations*
-      - Are variable correlations stable over time?
-        - No
-      #pause
-      - Correlations are dynamic over time
-        - Seasons
-        - Sensor drift
-      #pause
-      - We often consider average
-        - Especially hurtful in time series
-        - Predictions are bad in periods
-    ]
-  ]
-][
-  #pause
-  #image("/images/dynamic_correlations.png", width: 100%)
-]
-
-#slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Disrupted Correlations*
-      - System errors
-      - External influence
-      #pause
-      - What happens with outliers?
-        - Affect correlation #sym.arrow accuracy
-      #pause
-      - Many models are sensitive to outliers
-        - Numeric difference dominates training
-    ]
-  ]
-][
-  #pause
-  #image("/images/disrupted_correlations.png", width: 100%)
 ]
 
 == Problem
@@ -86,20 +35,60 @@
   #block(height: 100%)[
     #align(top)[
       *Challenge 1*
-      - Capture dynamic correlations
-      - Mitigate disrupted correlations
-      - Existing solutions struggle with the latter
-        - Capture dynamic and disrupted
-        - Reduces model robustness
+      - Effectiveness
+        - Bi-level optimization
+        - Capture relevant information
+      - Generalization
+        - Different networks
 
       #pause
+      *Solution*
+      - Curriculum Training Trajectory Matching (CT²D)
+      - Expert trajectories
+        - Based on original dataset
+        - Offline
+      - Match based on model parameters
+    ]
+  ]
+]
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
       *Challenge 2*
-      - Local information #emoji.hands.shake global information
-      - Global information is _all_ local information
-      - Local information _affects_ global information
-      - Existing solutions struggle with combining
-        - Only local
-        - Only global
+      - Complex Temporal Dependencies 
+      - Existing methods focus on image
+      - Time series requires temporal analysis
+      - Channel independent
+        - Training stability
+
+      #pause
+      *Solution*
+      - Time Series Feature Extraction (TSFE)
+        - Channel independent mechanism
+        - Stacked TSOperators
+      - Decomposition-Driven Frequency Matching (DDFM)
+        - Analyze intermediate TSFE
+        - Match to original data
+    ]
+  ]
+]
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
+      *Challenge 3*
+      - Scalability
+      - Bi-level optimization
+      - Models must be loaded at runtime
+      - Ineffective and memory intensive
+
+      #pause
+      *Solution*
+      - Expert buffer
+        - Pre-computed expert trajectories
+      - Patching
+        - Combine data
     ]
   ]
 ]
@@ -109,23 +98,11 @@
 #slide[
   #block(height: 100%)[
     #align(top)[
-      *Memformer*
-      - Transformer
-      - Patch-wise recurrent graph learning
-        - Captures dynamic correlations
-      - Global attention
-        - Mitigates disrupted correlations
-      - Adresses challenge 1
-
-      #pause
-      *Alternating Memory Enhancer*
-      - Memory network
-      - Associates local and global information
-      - Adresses challenge 2
-
-      #pause
-      *Experiments*
-      - Proof
+      *Dataset Condensation*
+      - Novel time series dataset condensation
+      - TSFE
+      - DDFM
+      - CT²M
     ]
   ]
 ]

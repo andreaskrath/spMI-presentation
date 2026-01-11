@@ -2,101 +2,52 @@
 
 = Experiments
 
-== Noteworthy Details
+== Dataset Condensation
 
 #slide[
   #block(height: 100%)[
-    #align(top)[
-      *Datasets*
-      - 7 in total
-        - 4 are variants of the same
-      - 7, 21, 321, and 862 variables
-      - $H = 336$
-      - $F = [96, 192, 336, 720]$
-      
-      #pause
-      *Comparisons*
-      - Multiple different model architectures
-        - Channel independent models
-        - Linear models
-        - Attention models
+    #align(bottom)[
+      #image("/images/table_1.png", width: 90%)
     ]
   ]
 ]
 
-== Forecasting Accuracy
+== Size of Condensed Dataset
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
+      #image("/images/figure_5.png", width: 50%)
+    ]
+  ]
+]
+
+== Ablation Study
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
+      #image("/images/figure_6.png", width: 50%)
+    ]
+  ]
+]
+
+== Condensed Dataset Generalization
+
+#slide[
+  #block(height: 100%)[
+    #align(top)[
+      #image("/images/table_2.png", width: 100%)
+    ]
+  ]
+]
+
+== Efficiency
 
 #slide(composer: (1fr, 1fr))[
-  #block(height: 100%)[
-    #align(top)[
-      *Results*
-      - Compare on MSE and MAE
-      - Bold is best, underline is second best
-      - Almost always best performance
-        - Loses on MSE for low $F$ in one dataset
-    ]
-  ]
+  #image("/images/table_3.png", width: 100%)
+  #image("/images/table_4.png", width: 100%)
+  #image("/images/table_6.png", width: 100%)
 ][
-  #block(height: 100%)[
-    #align(center + horizon)[
-      #meanwhile
-      #image("/images/forecasting_accuracy.png", width: 100%)
-    ]
-  ]
-]
-
-// == Ablation Study
-//
-// #slide(composer: (1fr, 1fr))[
-//   #block(height: 100%)[
-//     #align(top)[
-//       *Overview*
-//       - Are components contributing?
-//       - Experiment without
-//         - Graph learning
-//         - GRU
-//         - Local
-//         - Global
-//         - Sharing
-//         - Alternating
-//
-//       #pause
-//       *Results*
-//       - All component are contributing
-//     ]
-//   ]
-// ][
-//   #block(height: 100%)[
-//     #align(center)[
-//       #meanwhile
-//       #image("/images/ablation_study.png", width: 100%)
-//     ]
-//   ]
-// ]
-
-== Challenge 1
-
-#slide[
-  #block(height: 100%)[
-    #align(top)[
-      *Disrupted Correlations*
-      - Robustness
-      - Introduce outliers
-        - Different amounts
-        - Independent
-        - Dependent
-      #pause
-      - Results
-        - Performed the best
-        - Mitigate both types of outliers
-
-      #pause
-      *Dynamic Correlations*
-      - Introduce dynamic correlations
-        - Different amounts
-      #pause
-      - Results
-        - Performed the best
-    ]
-  ]
+  #image("/images/figure_7.png", width: 100%)
 ]
