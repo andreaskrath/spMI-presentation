@@ -41,13 +41,3 @@
     ]
   ]
 ]
-
-== Efficiency
-
-#slide(composer: (1fr, 1fr))[
-  #image("/images/table_3.png", width: 100%)
-  #image("/images/table_4.png", width: 100%)
-  #image("/images/table_6.png", width: 100%)
-][
-  #image("/images/figure_7.png", width: 100%)
-]

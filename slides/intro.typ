@@ -21,7 +21,6 @@
       #pause
       *Existing Methods*
       - Coreset construction
-      - Streaming learning
       - Issues
         - Not optimal
         - Downstream tasks
@@ -46,8 +45,6 @@
       - Curriculum Training Trajectory Matching (CT²D)
       - Expert trajectories
         - Based on original dataset
-        - Offline
-      - Match based on model parameters
     ]
   ]
 ]
@@ -57,15 +54,12 @@
     #align(top)[
       *Challenge 2*
       - Complex Temporal Dependencies 
-      - Existing methods focus on image
-      - Time series requires temporal analysis
-      - Channel independent
-        - Training stability
+        - Existing methods focus on image
+        - Time series requires temporal analysis
 
       #pause
       *Solution*
       - Time Series Feature Extraction (TSFE)
-        - Channel independent mechanism
         - Stacked TSOperators
       - Decomposition-Driven Frequency Matching (DDFM)
         - Analyze intermediate TSFE
@@ -74,24 +68,24 @@
   ]
 ]
 
-#slide[
-  #block(height: 100%)[
-    #align(top)[
-      *Challenge 3*
-      - Scalability
-      - Bi-level optimization
-      - Models must be loaded at runtime
-      - Ineffective and memory intensive
-
-      #pause
-      *Solution*
-      - Expert buffer
-        - Pre-computed expert trajectories
-      - Patching
-        - Combine data
-    ]
-  ]
-]
+// #slide[
+//   #block(height: 100%)[
+//     #align(top)[
+//       *Challenge 3*
+//       - Scalability
+//         - Bi-level optimization
+//         - Models must be loaded at runtime
+//         - Ineffective and memory intensive
+//
+//       #pause
+//       *Solution*
+//       - Expert buffer
+//         - Pre-computed expert trajectories
+//       - Patching
+//         - Combine data
+//     ]
+//   ]
+// ]
 
 == Contributions
 
